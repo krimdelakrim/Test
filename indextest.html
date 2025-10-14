@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Apps Script POST</title>
+</head>
+<body>
+  <h1>Test Google Apps Script POST</h1>
+  <form id="test-form">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <button type="submit">Send</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    const form = document.getElementById('test-form');
+    const responseEl = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      const scriptURL = "YOUR_WEB_APP_URL_HERE"; // <-- replace with your Apps Script URL
+
+      try {
+        const res = await fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify({ name, email }),
+          headers: { "Content-Type": "application/json" }
+        });
+
+        const data = await res.json();
+        responseEl.textContent = "Response: " + JSON.stringify(data);
+      } catch (err) {
+        responseEl.textContent = "Error: " + err;
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
